@@ -7,7 +7,7 @@ Onyx plugin for {{medium}}.
 In your project file:
 
 ```clojure
-[onyx-{{medium}} "0.4.1"]
+[onyx-{{medium}} "0.6.0-SNAPSHOT"]
 ```
 
 In your peer boot-up namespace:
@@ -16,9 +16,11 @@ In your peer boot-up namespace:
 (:require [onyx.plugin.{{medium}}])
 ```
 
-#### Catalog entries
+#### Functions
 
 ##### sample-entry
+
+Catalog entry:
 
 ```clojure
 {:onyx/name :entry-name
@@ -30,20 +32,16 @@ In your peer boot-up namespace:
  :onyx/doc "Reads segments from {{medium}}"}
 ```
 
+Lifecycle entry:
+
+[{:lifecycle/task :your-task-name
+  :lifecycle/calls :onyx.plugin.{{medium}}/lifecycle-calls}]
+
 #### Attributes
 
 |key                           | type      | description
 |------------------------------|-----------|------------
 |`:{{medium}}/attr`            | `string`  | Description here.
-
-#### Lifecycle Arguments
-
-##### `sample-entry`
-
-```clojure
-(defmethod l-ext/inject-lifecycle-resources :{{medium}}/task
-  [_ _] {:{{medium}}/arg val})
-```
 
 #### Contributing
 
