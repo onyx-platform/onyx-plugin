@@ -49,6 +49,6 @@ Pull requests into the master branch are welcomed.
 
 #### License
 
-Copyright © 2014 FIX ME
+Copyright © 2015 FIX ME
 
 Distributed under the Eclipse Public License, the same as Clojure.
