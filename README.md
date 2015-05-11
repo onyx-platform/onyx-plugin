@@ -1,6 +1,6 @@
 # onyx-plugin
 
-A Leiningen template for creating Onyx 0.6.0-SNAPSHOT plugins.
+A Leiningen template for creating Onyx 0.6.0-alpha2 plugins.
 
 ## Usage
 
