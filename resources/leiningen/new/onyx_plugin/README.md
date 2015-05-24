@@ -34,8 +34,10 @@ Catalog entry:
 
 Lifecycle entry:
 
+```clojure
 [{:lifecycle/task :your-task-name
   :lifecycle/calls :onyx.plugin.{{medium}}/lifecycle-calls}]
+```
 
 #### Attributes
 
