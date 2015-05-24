@@ -27,7 +27,6 @@ Catalog entry:
  :onyx/ident :{{medium}}/task
  :onyx/type :input
  :onyx/medium :{{medium}}
- :onyx/consumption :concurrent
  :onyx/batch-size batch-size
  :onyx/doc "Reads segments from {{medium}}"}
 ```
