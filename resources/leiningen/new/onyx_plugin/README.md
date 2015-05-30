@@ -27,15 +27,16 @@ Catalog entry:
  :onyx/ident :{{medium}}/task
  :onyx/type :input
  :onyx/medium :{{medium}}
- :onyx/consumption :concurrent
  :onyx/batch-size batch-size
  :onyx/doc "Reads segments from {{medium}}"}
 ```
 
 Lifecycle entry:
 
+```clojure
 [{:lifecycle/task :your-task-name
   :lifecycle/calls :onyx.plugin.{{medium}}/lifecycle-calls}]
+```
 
 #### Attributes
 
@@ -49,6 +50,6 @@ Pull requests into the master branch are welcomed.
 
 #### License
 
-Copyright © 2014 FIX ME
+Copyright © 2015 FIX ME
 
 Distributed under the Eclipse Public License, the same as Clojure.
