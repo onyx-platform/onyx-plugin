@@ -1,4 +1,4 @@
-## onyx-core-{{medium}}
+## onyx-{{medium}}
 
 Onyx plugin for {{medium}}.
 
@@ -7,7 +7,7 @@ Onyx plugin for {{medium}}.
 In your project file:
 
 ```clojure
-[onyx-{{medium}} "0.6.0-alpha2"]
+[onyx-{{medium}} "0.6.0"]
 ```
 
 In your peer boot-up namespace:
