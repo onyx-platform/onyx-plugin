@@ -15,5 +15,7 @@
     (->files data
              ["README.md" (render "README.md" data)]
              ["project.clj" (render "project.clj" data)]
-             ["src/onyx/plugin/{{medium}}.clj" (render "medium.clj" data)]
-             ["test/onyx/plugin/{{medium}}_test.clj" (render "medium_test.clj" data)])))
+             ["src/onyx/plugin/{{medium}}_input.clj" (render "medium_input.clj" data)]
+             ["test/onyx/plugin/{{medium}}_input_test.clj" (render "medium_input_test.clj" data)]
+             ["src/onyx/plugin/{{medium}}_output.clj" (render "medium_output.clj" data)]
+             ["test/onyx/plugin/{{medium}}_output_test.clj" (render "medium_output_test.clj" data)])))
