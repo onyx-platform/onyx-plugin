@@ -4,4 +4,5 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies  [[org.onyxplatform/onyx "0.7.0"]]
+  :plugins [[lein-set-version "0.4.1"]]
   :eval-in-leiningen true)
