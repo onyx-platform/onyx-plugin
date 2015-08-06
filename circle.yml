@@ -1,0 +1,10 @@
+test:
+  override:
+          - lein set-version 99.99.99 
+          - lein install
+          - lein new onyx-plugin test-plugin test-medium
+          - cd test-plugin && lein test
+
+machine:
+  java:
+    version: oraclejdk8
