@@ -7,7 +7,7 @@ Onyx plugin for {{medium}}.
 In your project file:
 
 ```clojure
-[onyx-{{medium}} "0.6.0"]
+[onyx-{{medium}} "0.7.0"]
 ```
 
 In your peer boot-up namespace:
@@ -24,7 +24,7 @@ Catalog entry:
 
 ```clojure
 {:onyx/name :entry-name
- :onyx/ident :{{medium}}/task
+ :onyx/plugin :onyx.plugin.{{medium}}/input
  :onyx/type :input
  :onyx/medium :{{medium}}
  :onyx/batch-size batch-size
