@@ -1,4 +1,4 @@
-(defproject onyx-medium-name "0.7.0-SNAPSHOT"
+(defproject onyx-{{medium}} "0.7.0-SNAPSHOT"
   :description "Onyx plugin for {{medium}}"
   :url "FIX ME"
   :license {:name "Eclipse Public License"
