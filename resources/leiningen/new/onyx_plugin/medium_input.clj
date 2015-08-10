@@ -15,8 +15,8 @@
                     {:event-map-keys (keys event)})))
 
   (let [pipeline (:onyx.core/pipeline event)] 
-    {:core.async/pending-messages (:pending-messages pipeline) 
-     :core.async/drained? (:drained? pipeline)
+    {:{{medium}}/pending-messages (:pending-messages pipeline) 
+     :{{medium}}/drained? (:drained? pipeline)
      :{{medium}}/example-datasource (:{{medium}}/example-datasource event)}))
 
 (def reader-calls 
