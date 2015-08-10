@@ -60,27 +60,27 @@
     )
 
   p-ext/PipelineInput
-  (ack-segment [_ _ message-id]
+  (ack-segment [_ _ segment-id]
     ;; When a message is fully acked you can remove it from pending-messages
     ;; Generally this can be left as is.
-    (swap! pending-messages dissoc message-id))
+    (swap! pending-messages dissoc segment-id))
 
   (retry-segment 
-    [_ {:keys [{{medium}}/example-datasource] :as event} message-id]
+    [_ {:keys [{{medium}}/example-datasource] :as event} segment-id]
     ;; Messages are retried if they are not acked in time
     ;; or if a message is forcibly retried by flow conditions.
     ;; Generally this takes place in two steps
     ;; Take the message out of your pending-messages atom, and put it 
     ;; back into a datasource or a buffer that are you are reading into
-    (when-let [msg (get @pending-messages message-id)]
-      (swap! pending-messages dissoc message-id) 
+    (when-let [msg (get @pending-messages segment-id)]
+      (swap! pending-messages dissoc segment-id) 
       (swap! example-datasource conj msg)))
 
   (pending?
-    [_ _ message-id]
+    [_ _ segment-id]
     ;; Lookup a message in your pending messages map.
     ;; Generally this can be left as is
-    (get @pending-messages message-id))
+    (get @pending-messages segment-id))
 
   (drained? 
     [_ _]
