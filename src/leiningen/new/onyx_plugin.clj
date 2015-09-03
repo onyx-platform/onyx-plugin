@@ -16,6 +16,7 @@
     (->files data
              ["README.md" (render "README.md" data)]
              ["project.clj" (render "project.clj" data)]
+             [".gitignore" (render ".gitignore" data)]
              [(str "src/onyx/plugin/" sanitized-medium "_input.clj") (render "medium_input.clj" data)]
              [(str "test/onyx/plugin/" sanitized-medium "_input_test.clj") (render "medium_input_test.clj" data)]
              [(str "src/onyx/plugin/" sanitized-medium "_output.clj") (render "medium_output.clj" data)]
