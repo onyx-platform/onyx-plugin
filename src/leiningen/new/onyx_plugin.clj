@@ -9,13 +9,14 @@
   [name medium]
   (let [data {:name name
               :medium medium
-              :clojure-version "1.6.0"
+              :clojure-version "1.7.0"
               :sanitized (name-to-path name)}
         sanitized-medium (name-to-path medium)]
     (main/info "Generating fresh 'lein new' onyx-plugin project.")
     (->files data
              ["README.md" (render "README.md" data)]
              ["project.clj" (render "project.clj" data)]
+             [".gitignore" (render ".gitignore" data)]
              [(str "src/onyx/plugin/" sanitized-medium "_input.clj") (render "medium_input.clj" data)]
              [(str "test/onyx/plugin/" sanitized-medium "_input_test.clj") (render "medium_input_test.clj" data)]
              [(str "src/onyx/plugin/" sanitized-medium "_output.clj") (render "medium_output.clj" data)]
