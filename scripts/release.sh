@@ -33,7 +33,6 @@ then
 elif [[ "$new_version" == *[.]*[.]* ]]; 
 then
 	core_version=$new_version
-	#lein update-dependency org.onyxplatform/onyx $core_version
 	if [[ "$version_type" == "$new_version" ]]; then 
 		new_plugin_version=$version_base".0"
 	else
