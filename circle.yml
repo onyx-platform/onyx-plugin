@@ -16,4 +16,5 @@ deployment:
   update-projects:
     branch: master
     commands:
-      - lein deploy
+            - git reset HEAD --hard 
+            - lein deploy
