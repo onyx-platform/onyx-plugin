@@ -1,47 +1,69 @@
 (ns onyx.plugin.{{medium}}-output
   (:require [onyx.peer.function :as function]
-            [onyx.peer.pipeline-extensions :as p-ext]
-            [onyx.static.default-vals :refer [defaults arg-or-default]]
+            [onyx.plugin.protocols :as p]
             [taoensso.timbre :refer [debug info] :as timbre]))
 
-(defn inject-writer
+(defn inject-into-eventmap
   [event lifecycle]
-  (when-not (:{{medium}}/example-datasink event)
-    (throw (ex-info ":example-output/example-datasink not found - add it using a :before-task-start lifecycle"
-                    {:event-map-keys (keys event)})))
-  {})
+  {:{{medium}}/example-datasink (atom (list))})
 
-;; map of lifecycle calls that are required to use this plugin
-;; users will generally always have to include these in their lifecycle calls
-;; when submitting the job
+;; Map of lifecycle calls that are required to use this plugin.
+;; Users will generally always have to include these in their lifecycle calls
+;; when submitting the job.
 (def writer-calls
-  {:lifecycle/before-task-start inject-writer})
+  {:lifecycle/before-task-start inject-into-eventmap})
 
 (defrecord ExampleOutput []
-  ;; Read batch can generally be left as is. It simply takes care of
-  ;; receiving segments from the ingress task
-  p-ext/Pipeline
-  (read-batch 
-    [_ event]
-    (function/read-batch event))
+  p/Plugin
+  (start [this event]
+    ;; Initialize the plugin, generally by assoc'ing any initial state.
+    this)
 
-  (write-batch 
-    ;; Write the batch that was read out to your datasink. 
-    ;; In this case we are swapping onto a collection in an atom
-    ;; Messages are on the leaves :tree, as :onyx/fn is called
-    ;; and each incoming segment may return n segments
-    [_ {:keys [onyx.core/results {{medium}}/example-datasink] :as event}]
-    (doseq [msg (mapcat :leaves (:tree results))]
-      (swap! example-datasink conj (:message msg)))
-    {})
+  (stop [this event]
+    ;; Nothing is required here. However, most plugins have resources
+    ;; (e.g. a connection) to clean up.
+    ;; Mind that such cleanup is also achievable with lifecycles.
+    this)
 
-  (seal-resource 
-    ;; Clean up any resources you opened.
-    ;; If relevant, put a :done on your datasource so that
-    ;; any readers will know the data sink has been sealed
-    [_ {:keys [{{medium}}/example-datasink]}]
-    (swap! example-datasink conj :done)))
+  p/Checkpointed
+  ;; Nothing is required here. This is normally useful for checkpointing in
+  ;; input plugins.
+  (checkpoint [this])
 
+  ;; Nothing is required here. This is normally useful for checkpointing in
+  ;; input plugins.
+  (recover! [this replica-version checkpoint])
+
+  ;; Nothing is required here. This is normally useful for checkpointing in
+  ;; input plugins.
+  (checkpointed! [this epoch])
+
+  p/BarrierSynchronization
+  (synced? [this epoch]
+    ;; Nothing is required here. This is commonly used to check whether all
+    ;; async writes have finished.
+    true)
+
+  (completed? [this]
+    ;; Nothing is required here. This is commonly used to check whether all
+    ;; async writes have finished (just like synced).
+    true)
+
+  p/Output
+  (prepare-batch [this event replica messenger]
+    ;; Nothing is required here. This is useful for some initial preparation,
+    ;; before write-batch is called repeatedly.
+    true)
+
+  (write-batch [this {:keys [onyx.core/write-batch {{medium}}/example-datasink]} replica messenger]
+    ;; Write the batch to your datasink.
+    ;; In this case we are conjoining elements onto a collection.
+    (loop [batch write-batch]
+      (if-let [msg (first batch)]
+        (do
+          (swap! example-datasink conj msg)
+          (recur (rest batch)))))
+    true))
 
 ;; Builder function for your output plugin.
 ;; Instantiates a record.
