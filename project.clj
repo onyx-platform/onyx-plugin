@@ -1,4 +1,4 @@
-(defproject onyx-plugin/lein-template "0.12.7.1-SNAPSHOT"
+(defproject onyx-plugin/lein-template "0.12.7.1"
   :description "A Leiningen 2.0 template for new Onyx plugins"
   :url "http://github.com/MichaelDrogalis/onyx-plugin"
   :license {:name "Eclipse Public License"
