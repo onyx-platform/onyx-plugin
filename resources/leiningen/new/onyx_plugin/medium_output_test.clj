@@ -1,20 +1,19 @@
 (ns onyx.plugin.{{medium}}-output-test
   (:require [clojure.core.async :refer [chan >!! <!! close! sliding-buffer]]
             [clojure.test :refer [deftest is testing]]
-            [taoensso.timbre :refer [info]]
             [onyx.plugin.core-async]
             [onyx.plugin.{{medium}}-output]
             [onyx.api]))
 
 (def id (java.util.UUID/randomUUID))
 
-(def env-config 
+(def env-config
   {:onyx/tenancy-id id
    :zookeeper/address "127.0.0.1:2188"
    :zookeeper/server? true
    :zookeeper.server/port 2188})
 
-(def peer-config 
+(def peer-config
   {:onyx/tenancy-id id
    :zookeeper/address "127.0.0.1:2188"
    :onyx.peer/job-scheduler :onyx.job-scheduler/greedy
@@ -53,10 +52,11 @@
 
 (def in-chan (chan (inc n-messages)))
 
-(def out-datasink (atom []))
+(def out-datasink (atom (list)))
 
 (defn inject-in-ch [event lifecycle]
-  {:core.async/chan in-chan})
+  {:core.async/chan in-chan
+   :core.async/buffer (atom {})})
 
 (def in-calls
   {:lifecycle/before-task-start inject-in-ch})
@@ -73,27 +73,22 @@
    {:lifecycle/task :in
     :lifecycle/calls :onyx.plugin.core-async/reader-calls}
    {:lifecycle/task :out
-    :lifecycle/calls ::out-calls}
-   {:lifecycle/task :out
-    :lifecycle/calls :onyx.plugin.{{medium}}-output/writer-calls}])
+    :lifecycle/calls ::out-calls}])
 
 (doseq [n (range n-messages)]
   (>!! in-chan {:n n}))
 
-(>!! in-chan :done)
 (close! in-chan)
 
 (def v-peers (onyx.api/start-peers 2 peer-group))
 
-(def job-info 
+(def job-info
   (onyx.api/submit-job
     peer-config
     {:catalog catalog
      :workflow workflow
      :lifecycles lifecycles
      :task-scheduler :onyx.task-scheduler/balanced}))
-
-(info "Awaiting job completion")
 
 (onyx.api/await-job-completion peer-config (:job-id job-info))
 
@@ -102,8 +97,7 @@
 (deftest testing-output
   (testing "Output is written correctly"
     (let [expected (set (map (fn [x] {:n x}) (range n-messages)))]
-      (is (= expected (set (butlast results))))
-      (is (= :done (last results))))))
+      (is (= expected (set results))))))
 
 (doseq [v-peer v-peers]
   (onyx.api/shutdown-peer v-peer))
