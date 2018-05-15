@@ -9,8 +9,8 @@
   [name medium]
   (let [data {:name name
               :medium medium
-              :clojure-version "1.7.0"
-              :onyx-version "0.12.7"
+              :clojure-version "1.8.0"
+              :onyx-version "0.13.0"
               :sanitized (name-to-path name)}
         sanitized-medium (name-to-path medium)]
     (main/info "Generating fresh 'lein new' onyx-plugin project.")
