@@ -7,13 +7,13 @@ A Leiningen template for creating Onyx 0.12.7 plugins.
 Specify the project name, which conventionally starts with `onyx-`, then specify a medium.
 
 ```
-lein new onyx-plugin onyx-whatever --template-version 0.12.7.2-SNAPSHOT whatever
+lein new onyx-plugin onyx-whatever --template-version 0.13.0.0 whatever
 ```
 
 For example, to create a Kafka plugin:
 
 ```
-lein new onyx-plugin onyx-kafka --template-version 0.12.7.2-SNAPSHOT kafka
+lein new onyx-plugin onyx-kafka --template-version 0.13.0.0 kafka
 ```
 
 ## License
