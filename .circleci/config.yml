@@ -10,10 +10,6 @@ jobs:
       - restore_cache:
           keys:
           - v1-dependencies-{{ .Branch }}-{{ .Revision }}
-
-      - run: 
-          command: lein deploy
-           
       - run: lein set-version 99.99.99 
       - run: lein install
       - run: git reset HEAD --hard 
